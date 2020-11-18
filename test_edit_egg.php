@@ -18,15 +18,15 @@ if(isset($_POST["save"])){
 	//TODO add proper validation/checks
 	$name = $_POST["name"];
 	$state = $_POST["state"];
-	$br = $_POST["base_rate"];
-	$min = $_POST["mod_min"];
-	$max = $_POST["mod_max"];
+	$br = $_POST["current_amount"];
+	$min = $_POST["account_min"];
+	$max = $_POST["account_max"];
 	$nst = date('Y-m-d H:i:s');//calc
 	$user = get_user_id();
 	$db = getDB();
 	if(isset($id)){
-		$stmt = $db->prepare("UPDATE F20_Eggs set name=:name, state=:state, base_rate=:br, mod_min=:min, mod_max=:max, next_stage_time=:nst where id=:id");
-		//$stmt = $db->prepare("INSERT INTO F20_Eggs (name, state, base_rate, mod_min, mod_max, next_stage_time, user_id) VALUES(:name, :state, :br, :min,:max,:nst,:user)");
+		$stmt = $db->prepare("UPDATE F20_Eggs set name=:name, state=:state, current_amount=:br, account_min=:min, account_max=:max, next_stage_time=:nst where id=:id");
+		//$stmt = $db->prepare("INSERT INTO F20_Eggs (name, state, current_amount, account_min, account_max, next_stage_time, user_id) VALUES(:name, :state, :br, :min,:max,:nst,:user)");
 		$r = $stmt->execute([
 			":name"=>$name,
 			":state"=>$state,
@@ -62,21 +62,21 @@ if(isset($id)){
 ?>
 
 <form method="POST">
-	<label>Name</label>
+	<label>Account Name</label>
 	<input name="name" placeholder="Name" value="<?php echo $result["name"];?>"/>
 	<label>State</label>
 	<select name="state" value="<?php echo $result["state"];?>">
-		<option value="0" <?php echo ($result["state"] == "0"?'selected="selected"':'');?>>Incubating</option>
-                <option value="1" <?php echo ($result["state"] == "1"?'selected="selected"':'');?>>Hatching</option>
-                <option value="2" <?php echo ($result["state"] == "2"?'selected="selected"':'');?>>Hatched</option>
+		<option value="0" <?php echo ($result["state"] == "0"?'selected="selected"':'');?>>Open</option>
+                <option value="1" <?php echo ($result["state"] == "1"?'selected="selected"':'');?>>Closed</option>
+                <option value="2" <?php echo ($result["state"] == "2"?'selected="selected"':'');?>>Pending</option>
                 <option value="3" <?php echo ($result["state"] == "3"?'selected="selected"':'');?>>Expired</option>
 	</select>
-	<label>Base Rate</label>
-	<input type="number" min="1" name="base_rate" value="<?php echo $result["base_rate"];?>" />
-	<label>Mod Min</label>
-	<input type="number" min="1" name="mod_min" value="<?php echo $result["mod_min"];?>" />
-	<label>Mod Max</label>
-	<input type="number" min="1" name="mod_max" value="<?php echo $result["mod_max"];?>" />
+	<label>Deposit / Withdraw Amount</label>
+	<input type="number" min="1" name="current_amount" value="<?php echo $result["current_amount"];?>" />
+	<label>Account Minimum</label>
+	<input type="number" min="1" name="account_min" value="<?php echo $result["account_min"];?>" />
+	<label>Account Maximum</label>
+	<input type="number" min="1" name="account_max" value="<?php echo $result["account_max"];?>" />
 	<input type="submit" name="save" value="Update"/>
 </form>
 
