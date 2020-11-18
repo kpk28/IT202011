@@ -8,21 +8,21 @@ if (!has_role("Admin")) {
 ?>
 
 <form method="POST">
-	<label>Name</label>
-	<input name="name" placeholder="Name"/>
+	<label>Account Name</label>
+	<input name="name" placeholder="Account Name"/>
 	<label>State</label>
 	<select name="state">
-		<option value="0">Incubating</option>
-		<option value="1">Hatching</option>
-		<option value="2">Hatched</option>
+		<option value="0">Open</option>
+		<option value="1">Closed</option>
+		<option value="2">Pending</option>
 		<option value="3">Expired</option>
 	</select>
-	<label>Base Rate</label>
-	<input type="number" min="1" name="base_rate"/>
-	<label>Mod Min</label>
-	<input type="number" min="1" name="mod_min"/>
-	<label>Mod Max</label>
-	<input type="number" min="1" name="mod_max"/>
+	<label>Current Amount</label>
+	<input type="number" min="1" name="current_amount"/>
+	<label>Account Minimum</label>
+	<input type="number" min="1" name="account_min"/>
+	<label>Account Maximum</label>
+	<input type="number" min="1" name="account_max"/>
 	<input type="submit" name="save" value="Create"/>
 </form>
 
@@ -31,9 +31,9 @@ if(isset($_POST["save"])){
 	//TODO add proper validation/checks
 	$name = $_POST["name"];
 	$state = $_POST["state"];
-	$br = $_POST["base_rate"];
-	$min = $_POST["mod_min"];
-	$max = $_POST["mod_max"];
+	$br = $_POST["current_amount"];
+	$min = $_POST["account_min"];
+	$max = $_POST["account_max"];
 	$nst = date('Y-m-d H:i:s');//calc
 	$user = get_user_id();
 	$db = getDB();
